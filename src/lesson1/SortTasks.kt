@@ -2,6 +2,9 @@
 
 package lesson1
 
+import java.io.File
+import java.lang.IllegalArgumentException
+
 /**
  * Сортировка времён
  *
@@ -33,7 +36,40 @@ package lesson1
  * В случае обнаружения неверного формата файла бросить любое исключение.
  */
 fun sortTimes(inputName: String, outputName: String) {
-    TODO()
+    val timeline = mutableMapOf<Int, String>()
+    val regex = Regex("""((0[0-9]|1[0-2]):[0-5][0-9]:[0-5][0-9])\s(AM|PM)""")
+    val input = File(inputName).bufferedReader()
+    val output = File(outputName).bufferedWriter()
+    val list = mutableListOf<Int>()
+
+    input.forEachLine { line ->
+        if (line.matches(regex)) {
+            val time = parseTime(line)
+            timeline += Pair(time, line)
+            list += time //костыль, чтобы не пропускать повторы одинакового времени
+        } else {
+            throw IllegalArgumentException()
+        }
+    }
+
+    list.sorted().forEach {
+        output.write(timeline[it]!!)
+        output.newLine()
+    }
+
+    input.close()
+    output.close()
+}
+
+private fun parseTime(line: String): Int {
+    val parts = line.split(" ")
+    val times = parts[0].split(":")
+    var hours = times[0].toInt() % 12
+    val minutes = times[1].toInt()
+    val seconds = times[2].toInt()
+    if (parts[1] == "PM")
+        hours += 12
+    return (hours * 60 + minutes) * 60 + seconds
 }
 
 /**
@@ -63,7 +99,15 @@ fun sortTimes(inputName: String, outputName: String) {
  * В случае обнаружения неверного формата файла бросить любое исключение.
  */
 fun sortAddresses(inputName: String, outputName: String) {
-    TODO()
+    val input = File(inputName).bufferedReader()
+    val output = File(outputName).bufferedWriter()
+    val book = mutableMapOf<String, MutableList<Int>>()
+    val regex = Regex("""[А-ЯЁа-яё]\s[А-ЯЁа-яё]\s-\s[А-ЯЁа-яё]\s\d""")
+
+    input.forEachLine { line ->
+
+    }
+
 }
 
 /**
