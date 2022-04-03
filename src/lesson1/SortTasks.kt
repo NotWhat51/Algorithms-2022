@@ -36,7 +36,7 @@ import java.lang.IllegalArgumentException
  * В случае обнаружения неверного формата файла бросить любое исключение.
  *
  * R = O(n)
- * T =
+ * T = O(n * log(n))
  */
 fun sortTimes(inputName: String, outputName: String) {
     val timeline = mutableMapOf<Int, String>()
@@ -135,6 +135,9 @@ fun sortAddresses(inputName: String, outputName: String) {
  * 24.7
  * 99.5
  * 121.3
+ *
+ * R = O(n)
+ * T = O(n * log(n))
  */
 fun sortTemperatures(inputName: String, outputName: String) {
     val minT = -273.0 + 273.0
