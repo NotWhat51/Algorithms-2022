@@ -2,6 +2,8 @@
 
 package lesson2
 
+import java.lang.Math.sqrt
+
 /**
  * Получение наибольшей прибыли (она же -- поиск максимального подмассива)
  * Простая
@@ -94,8 +96,46 @@ fun josephTask(menNumber: Int, choiceInterval: Int): Int {
  * Если имеется несколько самых длинных общих подстрок одной длины,
  * вернуть ту из них, которая встречается раньше в строке first.
  */
+
+// |  консерваторы
+// |0 000000000000
+//о|0| 1       1
+//б|0|
+//с|0|   1
+//е|0|    2
+//р|0|     3    1
+//в|0|      4
+//а|0|       5
+//т|0|        6
+//о|0| 1       7
+//р|0|     1    8
+//и|0|
+//я|0|
+
+// алгоритм взят из лекции
+
 fun longestCommonSubstring(first: String, second: String): String {
-    TODO()
+    val m = first.length + 1
+    val n = second.length + 1
+    var sizeSubstring = 0
+    var placeLastSymbol = 0
+    val table = Array(m) { Array<Int>(n) { 0 } }
+    var result = ""
+
+    for (i in 1 until m)
+        for (j in 1 until n) {
+            if (first[i - 1] == second[j - 1])
+                table[i][j] = table[i - 1][j - 1] + 1
+            if (sizeSubstring < table[i][j]) {
+                sizeSubstring = table[i][j]
+                placeLastSymbol = i
+            }
+        }
+    val placeFirstSymbol = placeLastSymbol - sizeSubstring
+    if (sizeSubstring != 0)
+        result = first.substring(placeFirstSymbol, placeLastSymbol)
+
+    return result
 }
 
 /**
@@ -107,7 +147,22 @@ fun longestCommonSubstring(first: String, second: String): String {
  *
  * Справка: простым считается число, которое делится нацело только на 1 и на себя.
  * Единица простым числом не считается.
+ *
+ *
  */
+
+// решение взято с статьи википедиа "Решето Эратосфена"
+
 fun calcPrimesNumber(limit: Int): Int {
-    TODO()
+    if (limit <= 1) return 0
+    val sieve = Array(limit + 1) { true }
+    var result = 0
+    for (i in 2..limit) {
+        if (sieve[i]) {
+            for (j in i * 2..limit step i)
+                sieve[j] = false
+            result++
+        }
+    }
+    return result
 }

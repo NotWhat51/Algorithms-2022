@@ -34,6 +34,9 @@ import java.lang.IllegalArgumentException
  * 07:56:14 PM
  *
  * В случае обнаружения неверного формата файла бросить любое исключение.
+ *
+ * R = O(n)
+ * T =
  */
 fun sortTimes(inputName: String, outputName: String) {
     val timeline = mutableMapOf<Int, String>()
@@ -99,14 +102,7 @@ private fun parseTime(line: String): Int {
  * В случае обнаружения неверного формата файла бросить любое исключение.
  */
 fun sortAddresses(inputName: String, outputName: String) {
-    val input = File(inputName).bufferedReader()
-    val output = File(outputName).bufferedWriter()
-    val book = mutableMapOf<String, MutableList<Int>>()
-    val regex = Regex("""[А-ЯЁа-яё]\s[А-ЯЁа-яё]\s-\s[А-ЯЁа-яё]\s\d""")
-
-    input.forEachLine { line ->
-
-    }
+    TODO()
 
 }
 
@@ -141,7 +137,28 @@ fun sortAddresses(inputName: String, outputName: String) {
  * 121.3
  */
 fun sortTemperatures(inputName: String, outputName: String) {
-    TODO()
+    val minT = -273.0 + 273.0
+    val maxT = 500.0 + 273.0
+    val kelvin = mutableListOf<Double>()
+    val scale = mutableMapOf<Double, String>()
+    val input = File(inputName).bufferedReader()
+    val output = File(outputName).bufferedWriter()
+
+    input.forEachLine { line ->
+        val temp = line.toDouble() + 273.0
+        if ((temp >= minT) && (temp <= maxT)) {
+            kelvin += temp
+            scale += Pair(temp, line)
+        }
+    }
+
+    kelvin.sorted().forEach {
+        output.write(scale[it]!!)
+        output.newLine()
+    }
+
+    input.close()
+    output.close()
 }
 
 /**

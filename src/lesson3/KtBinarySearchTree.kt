@@ -80,7 +80,7 @@ class KtBinarySearchTree<T : Comparable<T>> : AbstractMutableSet<T>(), Checkable
      * Средняя
      */
     override fun remove(element: T): Boolean {
-        TODO()
+
     }
 
     override fun comparator(): Comparator<in T>? =
