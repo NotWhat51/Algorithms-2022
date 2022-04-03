@@ -1,6 +1,7 @@
 package lesson3
 
 import java.util.*
+import kotlin.NoSuchElementException
 import kotlin.math.max
 
 // attention: Comparable is supported but Comparator is not
@@ -80,7 +81,7 @@ class KtBinarySearchTree<T : Comparable<T>> : AbstractMutableSet<T>(), Checkable
      * Средняя
      */
     override fun remove(element: T): Boolean {
-
+        TODO()
     }
 
     override fun comparator(): Comparator<in T>? =
@@ -91,6 +92,16 @@ class KtBinarySearchTree<T : Comparable<T>> : AbstractMutableSet<T>(), Checkable
 
     inner class BinarySearchTreeIterator internal constructor() : MutableIterator<T> {
 
+        private val stack = ArrayDeque<Node<T>>()
+        private var current: Node<T>? = null
+
+        private fun leftPush(node: Node<T>?) {
+            if (node != null) {
+                stack.push(node)
+                leftPush(node.left)
+            }
+        }
+
         /**
          * Проверка наличия следующего элемента
          *
@@ -100,11 +111,11 @@ class KtBinarySearchTree<T : Comparable<T>> : AbstractMutableSet<T>(), Checkable
          * Спецификация: [java.util.Iterator.hasNext] (Ctrl+Click по hasNext)
          *
          * Средняя
+         *
+         * R = O(1)
+         * T = O(1)
          */
-        override fun hasNext(): Boolean {
-            // TODO
-            throw NotImplementedError()
-        }
+        override fun hasNext(): Boolean = stack.isNotEmpty()
 
         /**
          * Получение следующего элемента
@@ -118,10 +129,18 @@ class KtBinarySearchTree<T : Comparable<T>> : AbstractMutableSet<T>(), Checkable
          * Спецификация: [java.util.Iterator.next] (Ctrl+Click по next)
          *
          * Средняя
+         *
+         * R = O(1)
+         * T = O(1)
          */
         override fun next(): T {
-            // TODO
-            throw NotImplementedError()
+            if (hasNext()) {
+                val node = stack.pop()
+                current = node
+                leftPush(node.right)
+                return node.value
+            } else
+                throw NoSuchElementException()
         }
 
         /**
