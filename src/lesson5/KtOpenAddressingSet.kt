@@ -8,6 +8,8 @@ class KtOpenAddressingSet<T : Any>(private val bits: Int) : AbstractMutableSet<T
         require(bits in 2..31)
     }
 
+    private val deleted = object {}
+
     private val capacity = 1 shl bits
 
     private val storage = Array<Any?>(capacity) { null }
@@ -74,9 +76,12 @@ class KtOpenAddressingSet<T : Any>(private val bits: Int) : AbstractMutableSet<T
      * Спецификация: [java.util.Set.remove] (Ctrl+Click по remove)
      *
      * Средняя
+     *
+     * T = O(n)
+     * R = O(1)
      */
     override fun remove(element: T): Boolean {
-        TODO("not implemented")
+        TODO()
     }
 
     /**
@@ -89,7 +94,50 @@ class KtOpenAddressingSet<T : Any>(private val bits: Int) : AbstractMutableSet<T
      *
      * Средняя (сложная, если поддержан и remove тоже)
      */
-    override fun iterator(): MutableIterator<T> {
-        TODO("not implemented")
+    override fun iterator(): MutableIterator<T> = KtOpenAddressingIterator()
+
+    @Suppress("UNCHECKED_CAST")
+    inner class KtOpenAddressingIterator internal constructor() : MutableIterator<T> {
+
+        private var index = 0
+        private var iter = 0
+        var current: T? = null
+
+        /*
+            T = O(1)
+            R = O(1)
+             */
+        override fun hasNext(): Boolean = iter < size
+
+        /*
+            T = O(n)
+            R = O(1)
+             */
+        override fun next(): T {
+            if (!hasNext()) throw NoSuchElementException()
+
+            while (storage[index] == null || storage[index] == deleted)
+                index++
+
+            current = storage[index] as T?
+            index++
+            iter++
+
+            return current as T
+        }
+
+        /*
+            T = O(1)
+            R = O(1)
+             */
+        override fun remove() {
+            if (current != null && current !== deleted) {
+                storage[index - 1] = deleted
+                iter--
+                size--
+            } else
+                throw IllegalStateException()
+        }
+
     }
 }

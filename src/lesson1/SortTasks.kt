@@ -41,27 +41,28 @@ import java.lang.IllegalArgumentException
 fun sortTimes(inputName: String, outputName: String) {
     val timeline = mutableMapOf<Int, String>()
     val regex = Regex("""((0[0-9]|1[0-2]):[0-5][0-9]:[0-5][0-9])\s(AM|PM)""")
-    val input = File(inputName).bufferedReader()
-    val output = File(outputName).bufferedWriter()
+
     val list = mutableListOf<Int>()
 
-    input.forEachLine { line ->
-        if (line.matches(regex)) {
-            val time = parseTime(line)
-            timeline += Pair(time, line)
-            list += time //костыль, чтобы не пропускать повторы одинакового времени
-        } else {
-            throw IllegalArgumentException()
+    File(inputName).bufferedReader().use { input ->
+        input.forEachLine { line ->
+            if (line.matches(regex)) {
+                val time = parseTime(line)
+                timeline += Pair(time, line)
+                list += time //костыль, чтобы не пропускать повторы одинакового времени
+            } else {
+                throw IllegalArgumentException()
+            }
         }
     }
 
-    list.sorted().forEach {
-        output.write(timeline[it]!!)
-        output.newLine()
+    File(outputName).bufferedWriter().use { output ->
+        list.sorted().forEach {
+            output.write(timeline[it]!!)
+            output.newLine()
+        }
     }
 
-    input.close()
-    output.close()
 }
 
 private fun parseTime(line: String): Int {
@@ -137,31 +138,31 @@ fun sortAddresses(inputName: String, outputName: String) {
  * 121.3
  *
  * R = O(n)
- * T = O(n * log(n))
+ * T = O(n)
  */
 fun sortTemperatures(inputName: String, outputName: String) {
-    val minT = -273.0 + 273.0
-    val maxT = 500.0 + 273.0
-    val kelvin = mutableListOf<Double>()
-    val scale = mutableMapOf<Double, String>()
-    val input = File(inputName).bufferedReader()
-    val output = File(outputName).bufferedWriter()
+    val kelvin = Array(7731) { 0 }
+    val scale = mutableMapOf<Int, String>()
 
-    input.forEachLine { line ->
-        val temp = line.toDouble() + 273.0
-        if ((temp >= minT) && (temp <= maxT)) {
-            kelvin += temp
+    File(inputName).bufferedReader().use { input ->
+        input.forEachLine { line ->
+            val temp = parseTemp(line)
+            kelvin[temp]++
             scale += Pair(temp, line)
         }
     }
 
-    kelvin.sorted().forEach {
-        output.write(scale[it]!!)
-        output.newLine()
+    File(outputName).bufferedWriter().use { output ->
+        for (i in 0..7730)
+            for (j in 1..kelvin[i]) {
+                output.write(scale[i]!!)
+                output.newLine()
+            }
     }
+}
 
-    input.close()
-    output.close()
+private fun parseTemp(line: String): Int {
+    return (line.toDouble() * 10).toInt() + 2730
 }
 
 /**

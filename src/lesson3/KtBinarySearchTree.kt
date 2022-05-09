@@ -115,7 +115,9 @@ class KtBinarySearchTree<T : Comparable<T>> : AbstractMutableSet<T>(), Checkable
          * R = O(1)
          * T = O(1)
          */
-        override fun hasNext(): Boolean = stack.isNotEmpty()
+        override fun hasNext(): Boolean {
+            TODO()
+        }
 
         /**
          * Получение следующего элемента
@@ -134,13 +136,7 @@ class KtBinarySearchTree<T : Comparable<T>> : AbstractMutableSet<T>(), Checkable
          * T = O(1)
          */
         override fun next(): T {
-            if (hasNext()) {
-                val node = stack.pop()
-                current = node
-                leftPush(node.right)
-                return node.value
-            } else
-                throw NoSuchElementException()
+            TODO()
         }
 
         /**

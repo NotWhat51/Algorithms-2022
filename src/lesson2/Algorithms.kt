@@ -159,7 +159,7 @@ fun longestCommonSubstring(first: String, second: String): String {
 
 fun calcPrimesNumber(limit: Int): Int {
     if (limit <= 1) return 0
-    val sieve = Array(limit + 1) { true }
+    val sieve = BooleanArray(limit + 1) { true }
     var result = 0
     for (i in 2..limit) {
         if (sieve[i]) {
