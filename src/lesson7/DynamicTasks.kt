@@ -24,6 +24,8 @@ import java.lang.Integer.rotateLeft
  */
 //решение взято с neerc.ifmo.ru
 
+//любой отрывок из худ литературы достаточно большой был бы классным тестом для данной задачи
+
 fun longestCommonSubSequence(first: String, second: String): String {
     val m = first.length
     val n = second.length
@@ -85,6 +87,8 @@ private fun printResult(
  * R = O(n)
  */
 //решение взято с neerc.ifmo.ru
+
+//Вот тут тест по честному
 
 fun longestIncreasingSubSequence(list: List<Int>): List<Int> {
     val n = list.size

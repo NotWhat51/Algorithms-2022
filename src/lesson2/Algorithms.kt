@@ -117,6 +117,10 @@ fun josephTask(menNumber: Int, choiceInterval: Int): Int {
 
 // алгоритм взят из лекции
 
+//Считаю тесты создателей проекта достаточными
+//запихать в них отрывок из РУслана и Людмилы было забавно
+//Впринципе в таком ключе можно впихнуть отрывок из любой худ литературы, например 451 по Фаренгейту
+
 fun longestCommonSubstring(first: String, second: String): String {
     val m = first.length + 1
     val n = second.length + 1
@@ -156,6 +160,8 @@ fun longestCommonSubstring(first: String, second: String): String {
  */
 
 // решение взято с статьи википедиа "Решето Эратосфена"
+
+//тесты достаточнее некуда
 
 fun calcPrimesNumber(limit: Int): Int {
     if (limit <= 1) return 0

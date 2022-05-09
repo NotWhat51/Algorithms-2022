@@ -38,6 +38,15 @@ import java.lang.IllegalArgumentException
  * R = O(n)
  * T = O(n * log(n))
  */
+
+//тесты лежат в файлах input, но они почему-то не работают, проект не может найти эти файлы
+// называются time_in_my.txt -> time_out_my.txt
+//time_in_my2.txt -> не понята как сделать проверку на исключение в файле с тестами
+// Первая пара файлов прописана в тестовом файле
+
+//P.S. Так как тесты не работают допишу их комментариями, чтобы было понятно, что я понимаю как их писать, то технически это не реализовано
+//Можете написать в личку в Телеграмме, могу скинуть скрины ошибок про тесты
+
 fun sortTimes(inputName: String, outputName: String) {
     val timeline = mutableMapOf<Int, String>()
     val regex = Regex("""((0[0-9]|1[0-2]):[0-5][0-9]:[0-5][0-9])\s(AM|PM)""")
@@ -140,6 +149,11 @@ fun sortAddresses(inputName: String, outputName: String) {
  * R = O(n)
  * T = O(n)
  */
+
+//на мой взгляд нет смысла дописывать ещё тесты, так как и так написан генератор случайных температур для проверки
+//соответственно и так покрываются все случаи
+// Да и опять же я не смогу завязать файл с температурами и он не будет работать, простите
+
 fun sortTemperatures(inputName: String, outputName: String) {
     val kelvin = Array(7731) { 0 }
     val scale = mutableMapOf<Int, String>()
